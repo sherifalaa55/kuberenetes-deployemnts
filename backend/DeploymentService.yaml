@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend 
+    spec:
+      containers:
+      - name: backend
+        image: eldokan.azurecr.io/dokan-backend:latest
+        env:
+          - name: LOG_CHANNEL
+            value: "daily"
+          - name: LOG_LEVEL
+            value: "debug"
+          - name: APP_DEBUG
+            value: "true"
+          - name: APP_KEY
+            value: "base64:JnNIcYn+/pUBTdqZaTJhhUjs6ME+PZ22HiHZBJYmviQ="
+          - name: DB_CONNECTION
+            value: "mysql"
+          - name: DB_HOST
+            value: "saas-eldokan2.mysql.database.azure.com"
+          - name: DB_PORT
+            value: "3306"
+          - name: DB_DATABASE
+            value: "master"
+          - name: DB_USERNAME
+            value: "eldokan@saas-eldokan2"
+          - name: DB_PASSWORD
+            value: "xJxvXfQCaNA1XUMa9qpj"
+          - name: DB_CENTER_DATABASE
+            value: "saas"
+          - name: DB_SAAS_CONNECTION
+            value: "mysql"
+          - name: DB_SAAS_HOST
+            value: "saas-eldokan2.mysql.database.azure.com"
+          - name: DB_SAAS_PORT
+            value: "3306"
+          - name: DB_SAAS_DATABASE
+            value: "saas"
+          - name: DB_SAAS_USERNAME
+            value: "eldokan@saas-eldokan2"
+          - name: DB_SAAS_PASSWORD
+            value: "xJxvXfQCaNA1XUMa9qpj"
+          - name: BROADCAST_DRIVER
+            value: "log"
+          - name: CACHE_DRIVER
+            value: "array"
+          - name: FILESYSTEM_DRIVER
+            value: "local"
+          - name: QUEUE_CONNECTION
+            value: "sync"
+          - name: SESSION_DRIVER
+            value: "file"
+          - name: SESSION_LIFETIME
+            value: "120"
+          - name: MEMCACHED_HOST
+            value: "127.0.0.1"
+          - name: REDIS_HOST
+            value: "saas.redis.cache.windows.net"
+          - name: REDIS_PASSWORD
+            value: "8DBnbf0Yh9lTkJaaFUSw5bvWmYaHIIwbNAzCaHFK9mk="
+          - name: REDIS_PORT
+            value: "6379"
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+        - name: regcred

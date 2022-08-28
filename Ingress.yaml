@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dokan-ingress
+  annotations:
+    kubernetes.io/ingress.class: azure/application-gateway
+spec:
+  tls:
+  - hosts:
+    - masterapi-k8s.witheldokan.com
+    - masteradmin-k8s.witheldokan.com
+    secretName: dokan-tls
+  rules:
+  - host: masterapi-k8s.witheldokan.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: backend-service
+            port:
+              number: 80
+  - host: masteradmin-k8s.witheldokan.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: admin-service
+            port:
+              number: 80
